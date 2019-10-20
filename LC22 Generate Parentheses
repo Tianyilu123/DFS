@@ -29,3 +29,7 @@ class Solution {
         sb.setLength(sb.length()-1);
     }
 }
+
+
+time: ???? O((2^(2n))*n)
+space: ???? O((2^(2n))*n)
