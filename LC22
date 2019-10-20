@@ -1,1 +1,31 @@
 
+
+class Solution {
+    public List<String> generateParenthesis(int n) {
+        if(n <= 0) return new ArrayList<>();
+        List<String> res = new ArrayList<>();
+        StringBuilder sb = new StringBuilder();
+        helper(res, sb, n, 0, 0);
+        return res;
+    }
+    
+    private void helper(List<String> res, StringBuilder sb, int total, int left, int right) {
+        if(left == total && right == total) {
+            String s = sb.toString();
+            res.add(s);
+            return;
+        }
+        
+        if(left < right || left > total || right > total) {
+            return;
+        }
+        
+        sb.append('(');
+        helper(res, sb, total, left+1, right);
+        sb.setLength(sb.length()-1);
+        
+        sb.append(')');
+        helper(res, sb, total, left, right+1);
+        sb.setLength(sb.length()-1);
+    }
+}
