@@ -1,0 +1,32 @@
+
+class Solution {
+    public boolean canWin(String s) {
+        if(s == null || s.length() == 0) return false;
+        char[] cs = s.toCharArray();
+        return dfs(cs, new HashMap<String, Boolean>());
+    }
+    
+    private boolean dfs(char[] cs, HashMap<String, Boolean> map) {
+        int len = cs.length;
+        String str = new String(cs);
+        if(map.containsKey(str)) return map.get(str);
+        
+        for(int i=0; i<len-1; i++) {
+            if(cs[i] == '+' && cs[i+1] == '+') {
+                cs[i] = '-';
+                cs[i+1] = '-';
+                
+                boolean res = dfs(cs, map);
+                cs[i] = '+';
+                cs[i+1] = '+';
+                
+                if(!res) {
+                    map.put(new String(str), true);
+                    return true;
+                }
+            }
+        }
+        map.put(new String(str), false);
+        return false;
+    }
+}
