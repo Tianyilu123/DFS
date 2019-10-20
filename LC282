@@ -1,1 +1,42 @@
 
+class Solution {
+    public List<String> addOperators(String num, int target) {
+        List<String> res = new ArrayList<>();
+        if(num == null || num.length() == 0) return res;
+        helper(res, num, target, 0, 0, new StringBuilder());
+        return res;
+    }
+    
+    private void helper(List<String> res, String num, int target, long last, long sum,
+                       StringBuilder sb) {
+        int len = num.length();
+        if(len == 0 && sum == target) {
+            res.add(sb.toString());
+            return;
+        }
+        if(len == 0) return;
+        
+        int lenSb = sb.length();
+        long val = 0;
+        
+        for(int i=0; i<len; i++) {
+            val = 10*val + num.charAt(i)-'0';
+            if(sb.length() == 0) {
+                helper(res, num.substring(i+1), target, val, sum+val, sb.append(val));
+                sb.setLength(lenSb);
+            }
+            else {
+                helper(res, num.substring(i+1), target, val, sum+val, sb.append("+").append(val));
+                sb.setLength(lenSb);
+                
+                helper(res, num.substring(i+1), target, -val, sum-val, sb.append("-").append(val));
+                sb.setLength(lenSb);
+                
+                helper(res, num.substring(i+1), target, last*val, (sum-last) + last*val, 
+                    sb.append("*").append(val));
+                sb.setLength(lenSb);
+            }
+            if(val==0) break;
+        }
+    }
+}
