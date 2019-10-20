@@ -1,0 +1,29 @@
+
+class Solution {
+    public boolean canIWin(int maxChoosableInteger, int desiredTotal) {
+        if(desiredTotal <= 0) return true;
+        if(maxChoosableInteger * (1+maxChoosableInteger)/2 < desiredTotal) return false;
+        
+        char[] mem = new char[maxChoosableInteger+1];
+        Arrays.fill(mem, '1');
+        return dfs(desiredTotal, new HashMap<>(), mem);
+    }
+    
+    private boolean dfs(int desiredTotal, HashMap<String, Boolean> map, char[] mem) {
+        if(desiredTotal <= 0) return false;
+        String status = new String(mem);
+        if(map.containsKey(status)) return map.get(status);
+        
+        boolean res = false;
+        for(int i=1; i<mem.length; i++) {
+            if(mem[i] == '0') continue;
+            mem[i] = '0';
+            if(!dfs(desiredTotal-i, map, mem))
+                res = true;
+            mem[i] = '1';
+            if(res) break;
+        }
+        map.put(status, res);
+        return res;
+    }
+}
