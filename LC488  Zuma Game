@@ -1,0 +1,91 @@
+
+class Solution {
+    private int min;
+    public int findMinStep(String board, String hand) {
+        if(board == null || board.length() == 0) return 0;
+        if(hand == null || hand.length() == 0) return -1;
+        HashMap<Character, Integer> map = new HashMap<>();
+        for(char c : hand.toCharArray()) {
+            if(!map.containsKey(c)) {
+                map.put(c, 0);
+            }
+            map.put(c, map.get(c)+1);
+        }
+        min = Integer.MAX_VALUE;
+        helper(board, map, 0);
+        return (min == Integer.MAX_VALUE) ? -1 : min;
+    }
+    
+    private void helper(String board, HashMap<Character, Integer> map, int used) {
+        int len = board.length();
+        if(len == 0) {
+            if(min > used) {
+                min = used;
+            }
+            return;
+        }
+        if(map.isEmpty()) return;
+        
+        for(int i=0; i<len; i++) {
+            char c = board.charAt(i);
+            Integer count = map.get(c);
+            
+            if(count == null) continue;
+            
+            if(i<len-1 && c == board.charAt(i+1)) {
+                int newCount = map.remove(c)-1;
+                if(newCount > 0) {
+                    map.put(c, newCount);
+                }
+                String newBoard = removeBalls(board, i-1, i+2);
+                helper(newBoard, map, used+1);
+                map.put(c, count);
+            }
+            else if(count>=2) {
+                map.remove(c);
+                if(count > 2) {
+                    map.put(c, count-2);
+                }
+                String newBoard = removeBalls(board, i-1, i+1);
+                helper(newBoard, map, used+2);
+                map.put(c, count);
+            }
+        }
+    }
+    
+    private String removeBalls(String board, int left, int right) {
+        int len = board.length();
+        
+        while(left >= 0 && right < len) {
+            char c =  board.charAt(left);
+            int count = 0;
+            
+            int L = left;
+            while(L>=0 && board.charAt(L) == c) {
+                L--;
+                count++;
+            }
+            
+            int R = right;
+            while(R < len && board.charAt(R) == c) {
+                R++;
+                count++;
+            }
+            if(count >= 3) {
+                left = L;
+                right = R;
+            } else {
+                break;
+            }
+        }
+        
+        StringBuilder sb = new StringBuilder();
+        for(int i=0; i<=left; i++) {
+            sb.append(board.charAt(i));
+        }
+        for(int i=right; i<len; i++) {
+            sb.append(board.charAt(i));
+        }
+        return sb.toString();
+    }
+}
