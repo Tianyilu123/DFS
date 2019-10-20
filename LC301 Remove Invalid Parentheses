@@ -43,3 +43,6 @@ class Solution {
     }
 }
 
+
+time: unknown
+space: O(n)
