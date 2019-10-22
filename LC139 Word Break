@@ -64,3 +64,32 @@ class Solution {
         return mem[idx];
     }
 }
+
+// method 3: DFS(no pruning) (time limited)
+
+class Solution {
+    public boolean wordBreak(String s, List<String> wordDict) {
+        if(s == null || s.length() == 0) return false;
+        if(wordDict == null || wordDict.size() == 0) return false;
+        
+        HashSet<String> wordSet = new HashSet<>();
+        for(String word : wordDict) {
+            wordSet.add(word);
+        }
+        
+        return helper(s, wordSet, 0);
+    }
+    
+    private boolean helper(String str, HashSet<String> set, int idx) {
+        if(idx == str.length()) return true;
+        
+        for(int i=idx; i<str.length(); i++) {
+            String sub = str.substring(idx, i+1);
+            if(set.contains(sub)) {
+                if (helper(str, set, i+1))
+                    return true;
+            }
+        }
+        return false;
+    }
+}
