@@ -75,26 +75,26 @@ class Solution {
         return isMatch(str, 0, pattern, 0, map, set);
     }
     
-    private boolean isMatch(String str, int i, String pat, int j, HashMap<Character, String> map,
+    private boolean isMatch(String str, int idxS, String pat, int idxP, HashMap<Character, String> map,
                                                         HashSet<String> set) {
-        if(i == str.length() && j == pat.length()) return true;
-        if(i == str.length() || j == pat.length()) return false;
+        if(idxS == str.length() && idxP == pat.length()) return true;
+        if(idxS == str.length() || idxP == pat.length()) return false;
         
-        char c = pat.charAt(j);
+        char c = pat.charAt(idxP);
         if(map.containsKey(c)) {
             String s = map.get(c);
-            if(!str.startsWith(s, i)) {
+            if(!str.startsWith(s, idxS)) {
                 return false;
             }
-            return isMatch(str, i+s.length(), pat, j+1, map, set);
+            return isMatch(str, idxS+s.length(), pat, idxP+1, map, set);
         }
-        for(int k = i; k<str.length(); k++) {
-            String p = str.substring(i, k+1);
+        for(int k = idxS; k<str.length(); k++) {
+            String p = str.substring(idxS, k+1);
             if(set.contains(p))
                 continue;
             map.put(c, p);
             set.add(p);
-            if(isMatch(str, k+1, pat, j+1, map, set))
+            if(isMatch(str, k+1, pat, idxP+1, map, set))
                 return true;
             map.remove(c);
             set.remove(p);
