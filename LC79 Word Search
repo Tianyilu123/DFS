@@ -31,3 +31,7 @@ class Solution {
         return res;
     }
 }
+
+time: m*n*4^(k-1) = m*n*4^k
+space: m X n is board size, k is word size.
+recuision最深是k层，recursive部分空间复杂度应该是O(k) + O(m*n)(visit array)
