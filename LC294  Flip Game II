@@ -30,3 +30,7 @@ class Solution {
         return false;
     }
 }
+
+
+Time Complexity - O(2n)， 
+Space Complexity - O(2n)
