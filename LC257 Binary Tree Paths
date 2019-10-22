@@ -22,3 +22,7 @@ class Solution {
             path.setLength(len);
     }
 }
+
+
+Time: O(n), 
+Space: O(n) 
