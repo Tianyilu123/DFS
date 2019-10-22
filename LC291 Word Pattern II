@@ -89,15 +89,15 @@ class Solution {
             return isMatch(str, idxS+s.length(), pat, idxP+1, map, set);
         }
         for(int k = idxS; k<str.length(); k++) {
-            String p = str.substring(idxS, k+1);
-            if(set.contains(p))
+            String sub = str.substring(idxS, k+1);
+            if(set.contains(sub))
                 continue;
-            map.put(c, p);
-            set.add(p);
+            map.put(c, sub);
+            set.add(sub);
             if(isMatch(str, k+1, pat, idxP+1, map, set))
                 return true;
             map.remove(c);
-            set.remove(p);
+            set.remove(sub);
         }
         return false;
     }
