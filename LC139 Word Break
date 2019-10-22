@@ -26,6 +26,9 @@ class Solution {
     }
 }
 
+// time: O(n^2)
+// space: O(n)
+
 
 // method 2: Prunning:
 
@@ -64,6 +67,11 @@ class Solution {
         return mem[idx];
     }
 }
+
+// time: O(n^2)
+// space: O(n);
+
+
 
 // method 3: DFS(no pruning) (time limited)
 
