@@ -70,35 +70,38 @@ class Solution {
 
 class Solution {
     public boolean wordPatternMatch(String pattern, String str) {
-        HashMap<Character, String> map = new HashMap<>();
-        HashSet<String> set = new HashSet<>();
-        return isMatch(str, 0, pattern, 0, map, set);
+        HashMap<Character, String> hmap = new HashMap<>();
+        HashSet<String> hset = new HashSet<>();
+        return helper(pattern, 0, str, 0, hset, hmap);
     }
     
-    private boolean isMatch(String str, int idxS, String pat, int idxP, HashMap<Character, String> map,
-                                                        HashSet<String> set) {
-        if(idxS == str.length() && idxP == pat.length()) return true;
-        if(idxS == str.length() || idxP == pat.length()) return false;
+    private boolean helper(String pat, int idxP, String str, int idxS, HashSet<String> hset, 
+                                                    HashMap<Character, String> hmap) {
         
-        char c = pat.charAt(idxP);
-        if(map.containsKey(c)) {
-            String s = map.get(c);
-            if(!str.startsWith(s, idxS)) {
-                return false;
-            }
-            return isMatch(str, idxS+s.length(), pat, idxP+1, map, set);
+        if(idxP == pat.length() && idxS == str.length()) return true;
+        if(idxP == pat.length() || idxS == str.length()) return false;
+        
+        char cp = pat.charAt(idxP);
+        if(hmap.containsKey(cp)) {
+            String cs = hmap.get(cp);
+            if(!str.startsWith(cs, idxS)) return false;
+            return helper(pat, idxP+1, str, idxS+cs.length(), hset, hmap);
         }
-        for(int k = idxS; k<str.length(); k++) {
-            String sub = str.substring(idxS, k+1);
-            if(set.contains(sub))
-                continue;
-            map.put(c, sub);
-            set.add(sub);
-            if(isMatch(str, k+1, pat, idxP+1, map, set))
-                return true;
-            map.remove(c);
-            set.remove(sub);
+        
+        for(int i=idxS; i<str.length(); i++) {
+            String sub = str.substring(idxS, i+1);
+            if(hset.contains(sub)) continue;
+            hmap.put(cp, sub);
+            hset.add(sub);
+            if(helper(pat, idxP+1, str, i+1, hset, hmap)) return true;
+            hmap.remove(cp);
+            hset.remove(sub);
         }
+        
         return false;
     }
 }
+
+
+time: O(2^n)
+space: O(n)
