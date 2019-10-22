@@ -31,8 +31,43 @@ class Solution {
 }
 
 
+// method 2: DP-1dimension:
 
-// method 2: 
+public class Solution {
+    public boolean isMatch(String s, String p) {
+        int lenS = s.length(), lenP = p.length();
+        int count = 0;
+        for (int i = 0; i < lenP; i++) {
+            if (p.charAt(i) == '*') count++;
+        }
+        if (count==0 && lenS != lenP) return false;
+        else if (lenP - count > lenS) return false;
+        
+        boolean[] match = new boolean[lenS+1];
+        match[0] = true;
+        for (int i = 1; i <= lenS; i++) {
+            match[i] = false;
+        }
+        
+        for (int i = 1; i <= lenP; i++) {
+            if (p.charAt(i-1) == '*') {
+                for (int j = 1; j <= lenS; j++) {
+                    match[j] = match[j-1] || match[j]; 
+                }
+            } else {
+                for (int j = lenS; j > 0; j--) {
+                    match[j] = (p.charAt(i-1) == '?' || p.charAt(i-1) == s.charAt(j-1)) && match[j-1];
+                }
+                match[0] = false;
+            }
+        }
+        return match[lenS];
+    }
+}
+
+
+
+// method 3: 
 
 class Solution {
     public boolean isMatch(String s, String p) {
