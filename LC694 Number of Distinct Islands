@@ -35,3 +35,8 @@ class Solution {
         }
     }
 }
+
+
+Time Complexity: O(m*n). m = grid.length. n = grid[0].length.
+
+Space: O(m*n). stack space.
