@@ -32,3 +32,7 @@ class Solution {
         path.setLength(lenP);
     }
 }
+
+
+time: O(2^n), every char has 2 choice: abbreviate or keep
+space: O(n) (unknown)
