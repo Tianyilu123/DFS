@@ -8,27 +8,28 @@ class Solution {
         return res;
     }
     
-    private void helper(List<List<String>> res, List<String> tmp, String s) {
+    private void helper(List<List<String>> res, ArrayList<String> list, String s) {
         if(s.length() == 0) {
-            res.add(new ArrayList<>(tmp));
+            res.add(new ArrayList<>(list));
             return;
         }
-        
         for(int i=0; i<s.length(); i++) {
-            if(isPal(s.substring(0, i+1))) {
-                tmp.add(s.substring(0, i+1));
-                helepr(res, tmp, s.substring(i+1));
-                tmp.remove(list.size()-1);
+            String sub = s.substring(0, i+1);
+            if(isPal(sub)) {
+                list.add(sub);
+                helper(res, list, s.substring(i+1));
+                list.remove(list.size()-1);
             }
         }
     }
     
     private boolean isPal(String str) {
-        for(int i=0; i<s.length()/2; i++) {
-            if(s.charAt(i) != s.charAt(s.length()-1-i)) {
+        int left = 0, right = str.length()-1;
+        while(left <= right) {
+            if(str.charAt(left++) != str.charAt(right--))
                 return false;
-            }
         }
+        
         return true;
     }
 }
