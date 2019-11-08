@@ -1,1 +1,42 @@
 
+class Solution {
+    public double myPow(double x, int n) {
+        if(n==0) return 1;
+        double res = 1;
+        long abs = Math.abs((long)n);
+        while(abs > 0) {
+            if(abs%2 != 0) {
+                res *= x;
+            }
+            x *= x;
+            abs/=2;
+        }
+        if(n<0) {
+            return 1.0/res;
+        }
+        return res;
+    }
+}
+
+
+// method 2 : recursion
+
+class Solution {
+    public double myPow(double x, int n) {
+        double ans = 0;
+        boolean minus = (n < 0);
+        if (minus) {
+            if (n == Integer.MIN_VALUE) return 1.0 / calPow(x, -(n+1)) / x; 
+            // Special case to deal with, the possible overflow of -n
+            return 1.0 / calPow(x, -n);
+        }
+        return calPow(x, n);
+    }
+    
+    private double calPow(double x, int n) {
+        if (n == 0) return 1.0;
+        if (n == 1) return x;
+        if (n % 2 == 1) return x * calPow(x, n - 1);
+        return calPow(x * x, n / 2);
+    }
+}
